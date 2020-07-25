@@ -4,7 +4,7 @@
   "port": 3306,
   "username": "matheus",
   "password": "root",
-  "database": "default",
+  "database": "vuttr_core",
   "synchronize": true,
   "logging": false,
   "entities": ["src/entities/*.ts", "dist/entities/*.js"],
