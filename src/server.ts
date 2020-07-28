@@ -6,9 +6,15 @@ import helmet from "helmet";
 import cors from "cors";
 import routes from "@routes/index";
 
+// Configuring Environment
+require("dotenv").config({
+  path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env",
+});
+
+const app = express();
+
 createConnection()
   .then(async (connection) => {
-    const app = express();
     const PORT = process.env.PORT;
 
     app.use(cors());
@@ -23,3 +29,5 @@ createConnection()
     });
   })
   .catch((error) => console.log(error));
+
+export default app;

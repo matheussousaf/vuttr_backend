@@ -6,9 +6,21 @@ import { Tag } from "@entities/Tag";
 export class ToolController {
   static list = async (req: Request, res: Response) => {
     const toolRepository = getRepository(Tool);
-    const tools = await toolRepository.find();
+    const tagRepository = getRepository(Tag);
 
-    res.json(tools);
+    const tools = await toolRepository.find();
+    const serializedTags = tools.map((tool) => {
+      return tool.tags.map((tag) => {
+        console.log(tag.name);
+        return tag.name;
+      });
+    });
+
+    const serializedTools = tools.map((tool, index) => {
+      return { ...tool, tags: serializedTags[index] };
+    });
+
+    res.status(200).send(serializedTools);
   };
 
   static create = async (req: Request, res: Response) => {
@@ -17,26 +29,30 @@ export class ToolController {
 
     const { title, link, description, tags } = req.body;
 
-    let tagsToInsert: Tag[] = [] as Tag[];
+    try {
+      let tagsToInsert: Tag[] = [] as Tag[];
 
-    tags.map((tagName: string) => {
-      const newTag = new Tag();
-      newTag.name = tagName;
-      tagsToInsert.push(newTag);
-    });
+      tags.map((tagName: string) => {
+        const newTag = new Tag();
+        newTag.name = tagName;
+        tagsToInsert.push(newTag);
+      });
 
-    await tagRepository.save(tagsToInsert);
+      await tagRepository.save(tagsToInsert);
 
-    const newTool = new Tool();
+      const newTool = new Tool();
 
-    newTool.title = title;
-    newTool.description = description;
-    newTool.link = link;
-    newTool.tags = tagsToInsert;
+      newTool.title = title;
+      newTool.description = description;
+      newTool.link = link;
+      newTool.tags = tagsToInsert;
 
-    await toolRepository.save(newTool);
+      await toolRepository.save(newTool);
 
-    res.status(204).send();
+      res.status(201).send();
+    } catch (error) {
+      res.status(500).send({ response: `Error trying to create: ${error}.` });
+    }
   };
 
   static edit = async (req: Request, res: Response) => {
