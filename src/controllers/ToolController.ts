@@ -1,47 +1,77 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Tool } from "@entities/Tool";
+import { Tag } from "@entities/Tag";
 
 export class ToolController {
   static list = async (req: Request, res: Response) => {
     const toolRepository = getRepository(Tool);
     const tools = await toolRepository.find();
 
-    console.log(tools);
-
     res.json(tools);
   };
 
   static create = async (req: Request, res: Response) => {
     const toolRepository = getRepository(Tool);
+    const tagRepository = getRepository(Tag);
 
-    const { title, link, description } = req.body;
+    const { title, link, description, tags } = req.body;
+
+    let tagsToInsert: Tag[] = [] as Tag[];
+
+    tags.map((tagName: string) => {
+      const newTag = new Tag();
+      newTag.name = tagName;
+      tagsToInsert.push(newTag);
+    });
+
+    await tagRepository.save(tagsToInsert);
 
     const newTool = new Tool();
 
     newTool.title = title;
     newTool.description = description;
     newTool.link = link;
+    newTool.tags = tagsToInsert;
 
     await toolRepository.save(newTool);
 
-    res.send({newTool});
+    res.status(204).send();
   };
 
   static edit = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { title, description, link } = req.body;
+    const { title, description, link, tags } = req.body;
     const toolRepository = getRepository(Tool);
+    const tagRepository = getRepository(Tag);
 
     const tool = await toolRepository.findOne({ id: Number(id) });
 
-    tool.title = title;
-    tool.link = link;
-    tool.description = description;
+    if (!tool) {
+      res.status(404).send({ response: "Item not found." });
+      return;
+    }
 
-    await toolRepository.save(tool);
+    try {
+      let tagsToInsert: Tag[] = [] as Tag[];
 
-    res.send(tool);
+      tags.map((tagName: string) => {
+        const newTag = new Tag();
+        newTag.name = tagName;
+        tagsToInsert.push(newTag);
+      });
+
+      await tagRepository.save(tagsToInsert);
+
+      tool.title = title;
+      tool.link = link;
+      tool.description = description;
+      tool.tags = tagsToInsert;
+      await toolRepository.save(tool);
+      res.send(tool);
+    } catch (error) {
+      res.status(400).send({ response: `Error inserting object: ${error}` });
+    }
   };
 
   static index = async (req: Request, res: Response) => {
@@ -49,6 +79,11 @@ export class ToolController {
     const toolRepository = getRepository(Tool);
 
     const tool = await toolRepository.findOne({ id: Number(id) });
+
+    if (!tool) {
+      res.status(404).send({ response: "Item not found" });
+      return;
+    }
 
     res.send(tool);
   };
@@ -59,8 +94,17 @@ export class ToolController {
 
     const tool = await toolRepository.findOne({ id: Number(id) });
 
-    await toolRepository.remove(tool);
+    if (!tool) {
+      res.status(404).send({ response: "Item not found" });
+      return;
+    }
+
+    try {
+      await toolRepository.remove(tool);
+    } catch (error) {
+      res.status(404).send({ response: `Error deleting item ${error}` });
+    }
 
     res.status(204).send();
-  }
+  };
 }

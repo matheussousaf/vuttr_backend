@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Length } from "class-validator";
 import { Tag } from "./Tag";
 
@@ -24,6 +19,6 @@ export class Tool {
   @Column()
   description: string;
 
-  @OneToMany((type) => Tag, (tag) => tag.id)
-  tools: Tag[];
+  @OneToMany((type) => Tag, (tag) => tag.tool, { cascade: true, eager: true })
+  tags: Tag[];
 }

@@ -1,9 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Tool } from "./Tool";
 import { Length } from "class-validator";
 
@@ -16,6 +11,9 @@ export class Tag {
   @Length(3, 15)
   name: string;
 
-  @ManyToOne((type) => Tool, (tool) => tool.id)
+  @ManyToOne((type) => Tool, (tool) => tool.tags, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   tool: Tool;
 }
