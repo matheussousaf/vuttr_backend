@@ -6,26 +6,41 @@ import helmet from "helmet";
 import cors from "cors";
 import routes from "@routes/index";
 
+const isTest = process.env.NODE_ENV === "test";
+
 // Configuring Environment
 require("dotenv").config({
-  path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env",
+  path: isTest ? ".env.testing" : ".env",
 });
 
 const app = express();
 
-createConnection()
-  .then(async (connection) => {
-    const PORT = process.env.PORT;
+interface Connection {
+  create: (callback?: Function) => Promise<void>;
+}
 
-    app.use(cors());
-    app.use(helmet());
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+export const connection: Connection = {
+  create: async (callback: Function = () => {}) => {
+    await createConnection();
+    callback();
+  },
+};
 
-    app.use("/", routes);
+connection.create(() => {
+  const PORT = process.env.PORT;
 
-    app.listen(PORT, () => {
+  app.use(cors());
+  app.use(helmet());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use("/", routes);
+
+  app.listen(PORT, () => {
+    if (!isTest) {
       console.log(`🚀 Server started on port ${PORT}`);
-    });
-  })
-  .catch((error) => console.log(error));
+    };
+  });
+});
+
+export default app;
