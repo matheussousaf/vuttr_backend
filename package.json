@@ -10,7 +10,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
     "mg:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
