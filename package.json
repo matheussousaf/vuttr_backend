@@ -8,9 +8,11 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "node dist/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
-    "mg:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles"
+    "mg:run": "cross-env NODE_ENV=development ts-node ./node_modules/typeorm/cli.js migration:run",
+    "mg:create": "ts-node ./node_modules/typeorm/cli.js migration:generate Tool",
+    "typeorm": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "pretest": "cross-env NODE_ENV=test ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",

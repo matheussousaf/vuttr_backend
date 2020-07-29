@@ -6,12 +6,10 @@ import { Tag } from "@entities/Tag";
 export class ToolController {
   static list = async (req: Request, res: Response) => {
     const toolRepository = getRepository(Tool);
-    const tagRepository = getRepository(Tag);
 
     const tools = await toolRepository.find();
     const serializedTags = tools.map((tool) => {
       return tool.tags.map((tag) => {
-        console.log(tag.name);
         return tag.name;
       });
     });

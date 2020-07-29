@@ -1,16 +1,19 @@
 import request from "supertest";
-import app, { connection } from "../../../server";
+import app from "../../../server";
+import { connection } from "../../../db";
 
 beforeAll(async () => {
   await connection.create();
 });
 
+// Endpoint for Tools
 describe("/tools", () => {
+
   describe("/GET tool", () => {
     it("should return all tools", async (done) => {
-      const res = await request(app).get("/");
+      const res = await request(app).get("/tools");
 
-      expect(res.status).toEqual(200);
+      expect(res.status).toBe(200);
 
       done();
     });
@@ -19,7 +22,7 @@ describe("/tools", () => {
   describe("/POST tool", () => {
     it("should create a new tool", async (done) => {
       const res = await request(app)
-        .post("/tool")
+        .post("/tools")
         .send({
           id: 1,
           title: "4zz2",
@@ -37,7 +40,7 @@ describe("/tools", () => {
   describe("/PUT tool", () => {
     it("should edit a existent tool", async (done) => {
       const res = await request(app)
-        .put("/tool/1")
+        .put("/tools/1")
         .send({
           title: "Space X",
           description: "Really nice tool",
@@ -45,7 +48,7 @@ describe("/tools", () => {
           tags: ["github", "vscode"],
         });
 
-      expect(res.status).toBe(204);
+      expect(res.status).toBe(200);
 
       done();
     });
