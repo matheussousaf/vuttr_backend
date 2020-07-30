@@ -10,10 +10,8 @@ afterAll(() => {
   return connection.dropDatabase();
 });
 
-
 // Testing Endpoint for Tools
 describe("/tools", () => {
-
   describe("/GET tools", () => {
     it("should return all tools", async (done) => {
       const res = await request(app).get("/tools");

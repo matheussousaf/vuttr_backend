@@ -1,3 +1,3 @@
 export default {
-  jwtSecret: "GR4P3",
+  jwtSecret: "b0ss@b0x",
 };
