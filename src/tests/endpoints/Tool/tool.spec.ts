@@ -6,10 +6,14 @@ beforeAll(async () => {
   await connection.create();
 });
 
-// Endpoint for Tools
+afterAll(() => {
+  return connection.dropDatabase();
+});
+
+// Testing Endpoint for Tools
 describe("/tools", () => {
 
-  describe("/GET tool", () => {
+  describe("/GET tools", () => {
     it("should return all tools", async (done) => {
       const res = await request(app).get("/tools");
 
@@ -19,7 +23,7 @@ describe("/tools", () => {
     });
   });
 
-  describe("/POST tool", () => {
+  describe("/POST tools", () => {
     it("should create a new tool", async (done) => {
       const res = await request(app)
         .post("/tools")
@@ -37,7 +41,7 @@ describe("/tools", () => {
     });
   });
 
-  describe("/PUT tool", () => {
+  describe("/PUT tools/:id", () => {
     it("should edit a existent tool", async (done) => {
       const res = await request(app)
         .put("/tools/1")
@@ -49,6 +53,26 @@ describe("/tools", () => {
         });
 
       expect(res.status).toBe(200);
+
+      done();
+    });
+  });
+
+  describe("/GET tools/:id", () => {
+    it("should return a single tool", async (done) => {
+      const res = await request(app).get("/tools/1");
+
+      expect(res.status).toBe(200);
+
+      done();
+    });
+  });
+
+  describe("/DELETE tools/:id", () => {
+    it("should delete a tool", async (done) => {
+      const res = await request(app).delete("/tools/1");
+
+      expect(res.status).toBe(204);
 
       done();
     });

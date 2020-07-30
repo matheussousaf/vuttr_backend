@@ -29,7 +29,6 @@ module.exports = [
     database: process.env.DATABASE,
     synchronize: true,
     logging: false,
-    dropSchema: false,
     entities: ["src/entities/*.ts", "dist/entities/*.js"],
     migrations: ["src/migrations/*.ts", "dist/migrations/*.js"],
     cli: {
