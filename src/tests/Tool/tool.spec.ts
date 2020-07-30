@@ -1,6 +1,6 @@
 import request from "supertest";
-import app from "../../../server";
-import { connection } from "../../../db";
+import app from "../../server";
+import { connection } from "../../db";
 
 beforeAll(async () => {
   await connection.create();
@@ -9,6 +9,7 @@ beforeAll(async () => {
 afterAll(() => {
   return connection.dropDatabase();
 });
+
 
 // Testing Endpoint for Tools
 describe("/tools", () => {
