@@ -6,27 +6,32 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
 import routes from "@routes/index";
-import { connection } from "./db";
+import { db } from "./db";
 
 const isTest = process.env.NODE_ENV === "test";
 
 const PORT = process.env.PORT || 3000;
 
-// Database connection
-connection.create();
+// Database Connection
 
 const app = express();
-app.use(cors());
-app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/", routes);
+const createServer = () => {
+  app.use(cors());
+  app.use(helmet());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
-if (!isTest) {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server started on port ${PORT}`);
-  });
-}
+  app.use("/", routes);
+
+  if (!isTest) {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server started on port ${PORT}`);
+    });
+  }
+};
+
+db.create();
+createServer();
 
 export default app;

@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "vuttr_core"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    ports:
+      - "3305:3306"
+    expose:
+      - "3306"
+    volumes:
+      - my-db:/var/lib/mysql
+  web:
+    image: vuttr
+    environment:
+      USER: matheus
+      PASSWORD: root
+      DATABASE: vuttr_core
+      PORT: 3000
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+volumes:
+  my-db:

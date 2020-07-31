@@ -1,13 +1,13 @@
 import request from "supertest";
 import app from "../../server";
-import { connection } from "../../db";
+import { db } from "../../db";
 
 beforeAll(async () => {
-  await connection.create();
+  await db.create();
 });
 
 afterAll(() => {
-  return connection.dropDatabase();
+  return db.dropDatabase();
 });
 
 // Testing Endpoint for Tools
