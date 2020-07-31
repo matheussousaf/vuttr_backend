@@ -21,7 +21,7 @@ jobs:
       run: yarn install
     
     - name: Build image for the API
-      run: docker build -t vuttr
+      run: docker build -t vuttr .
       
     - name: Build project (with docker compose)
       run: docker-compose up -d
