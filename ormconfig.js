@@ -12,4 +12,8 @@ module.exports = {
   logging: false,
   entities: [process.env.ENTITIES_FOLDER],
   migrations: [process.env.MIGRATIONS_FOLDER],
+  cli: {
+    migrationsDir: "src/migrations",
+    entitiesDir: "src/entities",
+  },
 };

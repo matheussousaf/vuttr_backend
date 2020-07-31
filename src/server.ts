@@ -14,7 +14,9 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const createServer = () => {
+const createServer = async () => {
+  await db.create(); // Db Connection
+  
   app.use(cors());
   app.use(helmet());
   app.use(bodyParser.json());
@@ -28,8 +30,6 @@ const createServer = () => {
     });
   }
 };
-
-db.create(); // Db Connection
 
 createServer();
 

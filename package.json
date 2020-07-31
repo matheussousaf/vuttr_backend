@@ -11,8 +11,7 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
     "mg:run": "cross-env NODE_ENV=development ts-node ./node_modules/typeorm/cli.js migration:run",
     "typeorm": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
-    "pretest": "cross-env NODE_ENV=test ts-node ./node_modules/typeorm/cli.js migration:run"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
