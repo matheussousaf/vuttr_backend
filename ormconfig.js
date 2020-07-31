@@ -1,50 +1,15 @@
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
+
 // Configuring Environment
-module.exports = [
-  {
-    name: "default",
-    type: "mysql",
-    port: 3306,
-    host: "db",
-    username: "user",
-    password: "password",
-    database: "vuttr_core",
-    synchronize: true,
-    logging: false,
-    entities: ["dist/entities/*.js"],
-    migrations: ["dist/migrations/*.js"],
-  },
-  {
-    name: "test",
-    type: "mysql",
-    port: 3306,
-    host: "localhost",
-    username: "matheus",
-    password: "root",
-    database: "vuttr_core_test",
-    synchronize: true,
-    logging: false,
-    entities: ["src/entities/*.ts", "dist/entities/*.js"],
-    migrations: ["src/migrations/*.ts", "dist/migrations/*.js"],
-    cli: {
-      migrationsDir: "./src/migrations",
-      entitiesDir: "./src/entities",
-    },
-  },
-  {
-    name: "development",
-    type: "mysql",
-    port: 3306,
-    host: "localhost",
-    username: "matheus",
-    password: "root",
-    database: "vuttr_core",
-    synchronize: true,
-    logging: false,
-    entities: ["src/entities/*.ts", "dist/entities/*.js"],
-    migrations: ["src/migrations/*.ts", "dist/migrations/*.js"],
-    cli: {
-      migrationsDir: "./src/migrations",
-      entitiesDir: "./src/entities",
-    },
-  },
-];
+module.exports = {
+  type: "mysql",
+  port: process.env.DB_PORT,
+  host: process.env.HOST,
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  synchronize: true,
+  logging: false,
+  entities: [process.env.ENTITIES_FOLDER],
+  migrations: [process.env.MIGRATIONS_FOLDER],
+};

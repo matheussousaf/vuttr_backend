@@ -1,4 +1,4 @@
-import { createConnection, getConnectionOptions, getConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 
 interface Connection {
   create(): Promise<void>;
@@ -6,14 +6,11 @@ interface Connection {
 }
 
 export const db: Connection = {
-  create: async (callback: Function = () => {}) => {
+  create: async () => {
     let retries = 5;
     while (retries) {
       try {
-        const connectionOptions = await getConnectionOptions(
-          process.env.NODE_ENV
-        );
-        await createConnection({ ...connectionOptions, name: "default" });
+        await createConnection();
         break;
       } catch (error) {
         retries -= 1;
@@ -24,6 +21,6 @@ export const db: Connection = {
     }
   },
   dropDatabase: async () => {
-    await getConnection("default").dropDatabase();
+    await getConnection().dropDatabase();
   },
 };
