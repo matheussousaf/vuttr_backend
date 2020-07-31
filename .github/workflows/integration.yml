@@ -16,9 +16,19 @@ jobs:
       uses: actions/setup-node@v1
       with: 
         node-version: 12.x
+        
+    - uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+        mysql database: 'vuttr_core_test' # Optional, default value is "test". The specified database which will be create
+        mysql user: 'matheus' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+        mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
     
     - name: Install dependencies
       run: yarn install
+    
+    - name: Run tests
+      run: yarn test --watchAll false
     
     - name: Build image for the API
       run: docker build -t vuttr .
@@ -26,7 +36,6 @@ jobs:
     - name: Build project (with docker compose)
       run: docker-compose up -d
     
-    - name: Run tests
-      run: yarn test --watchAll false
+    # TODO: Send to registry 
     
       
