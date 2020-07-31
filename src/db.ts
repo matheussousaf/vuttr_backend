@@ -6,8 +6,7 @@ interface Connection {
 }
 
 export const db: Connection = {
-  create: async () => {
-    let retries = 5;
+  create: async (retries: number = 5) => {
     while (retries) {
       try {
         await createConnection();

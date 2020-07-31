@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { query } from "express";
 
 export class Tool1596066913738 implements MigrationInterface {
   name = "Tool1596066913738";

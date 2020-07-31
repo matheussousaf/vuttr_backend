@@ -12,8 +12,6 @@ const isTest = process.env.NODE_ENV === "test";
 
 const PORT = process.env.PORT || 3000;
 
-// Database Connection
-
 const app = express();
 
 const createServer = () => {
@@ -31,7 +29,8 @@ const createServer = () => {
   }
 };
 
-db.create();
+db.create(); // Db Connection
+
 createServer();
 
 export default app;
