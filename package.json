@@ -6,10 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "start": "node dist/server.js",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
     "mg:run": "cross-env NODE_ENV=development ts-node ./node_modules/typeorm/cli.js migration:run",
-    "mg:create": "ts-node ./node_modules/typeorm/cli.js migration:generate Tool",
     "typeorm": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
     "pretest": "cross-env NODE_ENV=test ts-node ./node_modules/typeorm/cli.js migration:run"
