@@ -4,6 +4,7 @@ import { db } from "../../db";
 
 beforeAll(async () => {
   await db.create();
+  console.log(process.env);
 });
 
 afterAll(() => {
