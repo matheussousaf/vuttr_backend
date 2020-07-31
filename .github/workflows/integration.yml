@@ -20,9 +20,10 @@ jobs:
     - name: Install dependencies
       run: yarn install
       
+    - name: Build project (with docker compose)
+      run: docker-compose up -d
+    
     - name: Run tests
       run: yarn test --watchAll false
     
-    - name: Build project (with docker compose)
-      run: docker-compose up -d
       
