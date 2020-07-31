@@ -21,8 +21,8 @@ jobs:
       with:
         mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
         mysql database: 'vuttr_core_test' # Optional, default value is "test". The specified database which will be create
-        mysql user: 'matheus' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-        mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
+        mysql user: ${{ secrets.MYSQL_USER }} # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+        mysql password: ${{ secrets.MYSQL_PASSWORD }} # Required if "mysql user" exists. The password for the "mysql user"
     
     - name: Install dependencies
       run: yarn install
