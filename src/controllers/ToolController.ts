@@ -8,6 +8,7 @@ export class ToolController {
     const toolRepository = getRepository(Tool);
 
     const tools = await toolRepository.find();
+
     const serializedTags = tools.map((tool) => {
       return tool.tags.map((tag) => {
         return tag.name;
@@ -68,6 +69,7 @@ export class ToolController {
 
     try {
       let tagsToInsert: Tag[] = [] as Tag[];
+      let serializedTags: string[] = [] as string[];
 
       if (tags) {
         tags.map((tagName: string) => {
@@ -75,16 +77,22 @@ export class ToolController {
           newTag.name = tagName;
           tagsToInsert.push(newTag);
         });
-      }
 
-      await tagRepository.save(tagsToInsert);
+        await tagRepository.save(tagsToInsert);
+      }
 
       tool.title = title;
       tool.link = link;
       tool.description = description;
       tool.tags = tagsToInsert;
+
       await toolRepository.save(tool);
-      res.send(tool);
+
+      serializedTags = tool.tags.map((tag: Tag) => {
+        return tag.name;
+      });
+
+      res.send({ ...tool, tags: serializedTags });
     } catch (error) {
       res.status(500).send({ response: `Error editing object: ${error}` });
     }
@@ -101,7 +109,11 @@ export class ToolController {
       return;
     }
 
-    res.send(tool);
+    const serializedTags = tool.tags.map((tag: Tag) => {
+      return tag.name;
+    });
+
+    res.send({ ...tool, tags: serializedTags });
   };
 
   static delete = async (req: Request, res: Response) => {

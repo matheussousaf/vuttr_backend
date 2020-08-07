@@ -32,31 +32,71 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ToolRequest"          
+              $ref: "#/components/schemas/ToolDTO"
       responses:
         "201":
           description: Successfully created a new Tool.
         "500":
           description: Error trying to create a Tool.
+  /tools/{id}:
+    get:
+      summary: Get a single Tool.
+      parameters:
+        - in: path
+          required: true
+          name: id
+          description: The ID of the Tool.
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully fetched Tool.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolDTO"
+        "404":
+          description: Tool not found.
+        "500":
+          description: Error fetching Tool.
 
     put:
-      summary: Edits a existent Tool.
+      summary: Edit a Tool.
       parameters:
         - in: path
           required: true
           name: id
           description: The ID of the Tool which will be edited.
-          schema: 
+          schema:
             type: integer
       responses:
         "200":
           description: Successfully edited Tool.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolDTO"
         "404":
           description: Tool not found.
         "500":
-          description: Error editing Tool. 
+          description: Error editing Tool.
 
-        
+    delete:
+      summary: Delete a Tool.
+      parameters:
+        - in: path
+          required: true
+          name: id
+          description: The ID of the Tool which will be deleted.
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Successfully deleted Tool.
+        "404":
+          description: Tool not found.
+        "500":
+          description: Error deleting Tool.
 
 # Entities / Payload Objects
 components:
@@ -74,10 +114,10 @@ components:
           type: string
         tags:
           type: array
-          items: 
+          items:
             type: string
-    
-    ToolRequest:
+
+    ToolDTO:
       type: object
       properties:
         title:
@@ -88,5 +128,5 @@ components:
           type: string
         tags:
           type: array
-          items: 
+          items:
             type: string
