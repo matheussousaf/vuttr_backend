@@ -26,10 +26,10 @@ export class Tool {
   @Column()
   description: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt: Date;
 
   @OneToMany((type) => Tag, (tag) => tag.tool, { cascade: true, eager: true })
