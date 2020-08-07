@@ -69,11 +69,13 @@ export class ToolController {
     try {
       let tagsToInsert: Tag[] = [] as Tag[];
 
-      tags.map((tagName: string) => {
-        const newTag = new Tag();
-        newTag.name = tagName;
-        tagsToInsert.push(newTag);
-      });
+      if (tags) {
+        tags.map((tagName: string) => {
+          const newTag = new Tag();
+          newTag.name = tagName;
+          tagsToInsert.push(newTag);
+        });
+      }
 
       await tagRepository.save(tagsToInsert);
 
@@ -84,7 +86,7 @@ export class ToolController {
       await toolRepository.save(tool);
       res.send(tool);
     } catch (error) {
-      res.status(400).send({ response: `Error inserting object: ${error}` });
+      res.status(500).send({ response: `Error editing object: ${error}` });
     }
   };
 
