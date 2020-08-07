@@ -7,6 +7,10 @@ import helmet from "helmet";
 import cors from "cors";
 import routes from "@routes/index";
 import { db } from "./db";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+
+const docs = YAML.load("./docs/swagger.yaml");
 
 const isTest = process.env.NODE_ENV === "test";
 
@@ -16,11 +20,12 @@ const app = express();
 
 const createServer = async () => {
   await db.create(); // Db Connection
-  
+
   app.use(cors());
   app.use(helmet());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use("/docs/", swaggerUi.serve, swaggerUi.setup(docs));
 
   app.use("/", routes);
 

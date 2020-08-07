@@ -46,6 +46,8 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/yamljs": "^0.2.31",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
@@ -54,6 +56,8 @@
     "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "typeorm": "^0.2.25"
+    "swagger-ui-express": "^4.1.4",
+    "typeorm": "^0.2.25",
+    "yamljs": "^0.3.0"
   }
 }

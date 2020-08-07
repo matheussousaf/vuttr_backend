@@ -2,15 +2,14 @@ openapi: 3.0.0
 
 info:
   title: Vuttr Core
-  description: The core service to the Vuttr project.
+  description: The core service to the Very Useful Tools To Remind project.
   version: "1.0.0"
   contact:
     name: Matheus Figueirêdo
     email: matheussousaf.js@gmail.com
 servers:
-  - url: https://vuttr-core.herokuapp.com/
-    description: Main URL for the Vuttr Core API (Production)
-
+  - url: https://vuttr-core.herokuapp.com/v1
+    description: Main URL for the VUTTR Core API (Production)
 paths:
   /tools:
     get:
