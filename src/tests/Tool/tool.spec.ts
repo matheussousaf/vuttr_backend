@@ -1,14 +1,11 @@
 import request from "supertest";
-import app from "../../server";
+import app from "../../app";
 import { db } from "../../db";
+import { createDb } from "@config/createDb";
 
 beforeAll(async () => {
-  await db.create();
-  console.log(process.env);
-});
-
-afterAll(() => {
-  return db.dropDatabase();
+  await createDb("test")
+  await db.create(5, "test");
 });
 
 // Testing Endpoint for Tools

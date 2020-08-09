@@ -2,6 +2,7 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 // Configuring Environment (based on the NODE_ENV)
 module.exports = {
+  name: "default",
   type: "mysql",
   port: process.env.DB_PORT,
   host: process.env.HOST,

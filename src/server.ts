@@ -1,41 +1,15 @@
-require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
-
 import "reflect-metadata";
-import express from "express";
-import bodyParser from "body-parser";
-import helmet from "helmet";
-import cors from "cors";
-import routes from "@routes/index";
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
+import app from "./app";
 import { db } from "./db";
-import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
-
-const docs = YAML.load("./docs/swagger.yaml");
-
-const isTest = process.env.NODE_ENV === "test";
 
 const PORT = process.env.PORT || 3000;
 
-const app = express();
-
 const createServer = async () => {
-  await db.create(); // Db Connection
-
-  app.use(cors());
-  app.use(helmet());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use("/docs/", swaggerUi.serve, swaggerUi.setup(docs));
-
-  app.use("/", routes);
-
-  if (!isTest) {
-    app.listen(PORT, () => {
-      console.log(`🚀 Server started on port ${PORT}`);
-    });
-  }
+  await db.create(); // Database Connection
+  app.listen(PORT, () => {
+    console.log(`🚀 Server started on port ${PORT}`);
+  });
 };
 
 createServer();
-
-export default app;

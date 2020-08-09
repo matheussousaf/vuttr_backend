@@ -1,15 +1,28 @@
-import { createConnection, getConnection } from "typeorm";
-
+import { createConnection, getConnection, ConnectionOptions } from "typeorm";
 interface Connection {
-  create(): Promise<void>;
+  create(retries?: number, environment?: string): Promise<void>;
   dropDatabase(): Promise<void>;
 }
 
 export const db: Connection = {
-  create: async (retries: number = 5) => {
+  create: async (retries: number = 5, environment: string = "other") => {
     while (retries) {
+
       try {
-        await createConnection();
+        const testConfig: ConnectionOptions = {
+          type: "mysql",
+          database: process.env.TEST_DATABASE,
+          host: process.env.HOST,
+          username: process.env.USERNAME,
+          password: process.env.PASSWORD,
+          port: 3306,
+          name: "default",
+          entities: [process.env.ENTITIES_FOLDER],
+          synchronize: true,
+          dropSchema: true
+        };
+
+        await createConnection(environment === "test" ? testConfig : null);
         break;
       } catch (error) {
         retries -= 1;
